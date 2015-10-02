@@ -1,0 +1,10 @@
+/*
+ Function to sanitize file name before upload. Removes for example icelandic chars from string.
+*/
+
+add_filter('wp_handle_upload_prefilter', 'wp_upload_filename_sanitize' );
+function wp_upload_filename_sanitize( $file ){
+	preg_match('/(.*)[.](.*)/i', $file['name'], $fname);
+    $file['name'] = str_replace("-", "_", sanitize_title($fname[1])).'.'.$fname[2];
+    return $file;
+}
